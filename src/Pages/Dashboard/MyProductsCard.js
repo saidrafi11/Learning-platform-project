@@ -1,8 +1,12 @@
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 
 const MyProductCard = ({ product }) => {
+const [btn, setBTN] = useState(true);
 
-    
+
+
     console.log(product);
     const {
         _id,
@@ -10,12 +14,48 @@ const MyProductCard = ({ product }) => {
         car_model, img,
         resale_price, original_price,
         years_of_use, seller,
-        posting_time
+        posting_time,
+        available
+
     } = product;
+    console.log(
+        available
+    );
+
+    const handleAdvertise = () => {
+
+        const advirtiseProduct = product;
+
+
+        fetch('http://localhost:5000/advertise', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(advirtiseProduct)
+        }).then(res => res.json())
+            .then(data => {
+                // navigate(from, {replace: true})
+
+
+                if (data.acknowledged) {
+                    console.log(data.acknowledged)
 
 
 
-    
+                } else {
+                    toast.success("Good job!", "Services added success", "success");
+                    console.log('advirtise success')
+                    setBTN(false)
+
+                }
+            })
+            .catch(er => console.error(er))
+
+        }
+
+
+
 
     return (
         <div className="card w-96 bg-base-100 shadow-xl m-5">
@@ -25,12 +65,13 @@ const MyProductCard = ({ product }) => {
                     {car_model}
                     <div className="badge badge-secondary">{category_id}</div>
                 </h2>
+                <p>Status: available: {available}</p>
                 <p>Used: {years_of_use} years.</p>
                 <p>Location: {seller.location}</p>
                 <p>Posted on: {
-                        posting_time
-                    }</p>
-                
+                    posting_time
+                }</p>
+
                 <div className="card-actions flex ">
                     <div className="badge badge-info">Original price: {original_price}</div>
                     <div className="badge badge-secondary">Resale Price: {resale_price}</div>
@@ -38,22 +79,33 @@ const MyProductCard = ({ product }) => {
                 <div className='flex justify-between my-auto mt-3'>
                     <div className='flex justify-between '>
                         <div className="avatar max-w-3/4">
-                          
+
 
                         </div>
-                        
+                        {
+                             btn?.true ?
+                            <>
+                            
+                            </>
+                            :
+                            <>
+                            <div>
+                            <label htmlFor="my-modal-6" className="btn btn-sm btn-success text-white" onClick={handleAdvertise}>Advertise</label>
+                        </div>
+                            </>
+                        }
                     </div>
 
-                    
+
 
                 </div>
-                
+
             </div>
 
-       
 
 
-            
+
+
 
         </div>
     );

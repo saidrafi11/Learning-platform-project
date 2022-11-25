@@ -1,7 +1,24 @@
 import React from 'react';
 
 const User = ({user}) => {
-    const {name, email, photoURL, role} = user
+    const {_id, name, email, photoURL, role} = user;
+
+    const handleDlt = _id => {
+      const agree = window.confirm(`Are you sure you want to delete ${name} ?`)
+    
+      if(agree){
+        fetch(`http://localhost:5000/users/${_id}`, {
+          method: 'DELETE',
+    
+        })
+        .then(res => res.json())
+        .then(data => {
+    
+        })
+      }
+    }
+
+
     return (
         
         <tr>
@@ -30,7 +47,7 @@ const User = ({user}) => {
         </td>
         <td>{role}</td>
         <th>
-          <button className="btn btn-ghost btn-xs">Action</button>
+          <button onClick={()=>handleDlt(_id)} className="btn btn-ghost btn-xs">Delete</button>
         </th>
       </tr>
 

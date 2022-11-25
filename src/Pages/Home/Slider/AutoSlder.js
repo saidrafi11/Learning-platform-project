@@ -1,26 +1,48 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Carousel, { autoplayPlugin } from '@brainhubeu/react-carousel';
 import '@brainhubeu/react-carousel/lib/style.css';
 
 const AutoSlder = () => {
+    const [advirtiedProduct, setAdvirtiedProduct] = useState([])
+    console.log(advirtiedProduct.length);
+    useEffect(() => {
+
+        fetch('http://localhost:5000/advertise')
+            .then(res => res.json())
+            .then(data => {
+                setAdvirtiedProduct(data)
+                console.log(data);
+            })
+
+    }, [])
+
     return (
-        <div className='my-5'>
-            <Carousel
-                plugins={[
-                    'infinite',
+        <div>
+            <h1 className='text-3xl text-center p-5'>Advertisements</h1>
+            <div className='my-5'>
+
+                <Carousel
+                    plugins={[
+                        'infinite',
+                        {
+                            resolve: autoplayPlugin,
+                            options: {
+                                interval: 2000,
+                            }
+                        },
+                    ]}
+                    animationSpeed={1000}
+                >
+
+
                     {
-                        resolve: autoplayPlugin,
-                        options: {
-                            interval: 2000,
-                        }
-                    },
-                ]}
-                animationSpeed={1000}
-            >
-                <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTq_hUYF0-6lBkcpDF6zd4sLEW-o8bS-oOxFg&usqp=CAU' />
-                {/* <img src={imageTwo} /> */}
-                <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThRRhhkTZzwO203i_Zd77Um7kh48xkLpgvhQ&usqp=CAU' />
-            </Carousel>
+                        advirtiedProduct.map(product => <img src={product.img} />)
+                    }
+
+
+
+                </Carousel>
+            </div>
         </div>
     );
 };

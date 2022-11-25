@@ -13,10 +13,12 @@ const ProductCard = ({ product }) => {
         car_model, img,
         resale_price, original_price,
         years_of_use, seller,
-        posting_time
+        posting_time, isVerifiedSeller, condition
+
+
     } = product;
 
-
+    const edit = {available: "Not available"};
 
     const handleSubmit = event => {
         event.preventDefault();
@@ -38,7 +40,7 @@ const ProductCard = ({ product }) => {
             price: price,
             phone: phone,
             location: location,
-            img:img
+            img: img
 
         }
 
@@ -52,17 +54,39 @@ const ProductCard = ({ product }) => {
         }).then(res => res.json())
             .then(data => {
                 // navigate(from, {replace: true})
-        
-                
+
+
                 if (data.acknowledged) {
                     console.log(data.acknowledged)
-                    
-                    
 
-                }else{
+
+
+                } else {
                     toast.success("Good job!", "Services added success", "success");
                     console.log('product added success')
                     form.reset();
+
+
+                    // fetch(`http://localhost:5000/allproducts?_id=${_id}`)
+                    //     .then(res => res.json())
+                    //     .then(data => {
+                            
+                    //         console.log(data);
+                    //     })
+
+                    
+                    fetch(`http://localhost:5000/allproducts/${_id}`, {
+                        method: 'PUT',
+                        headers: {
+                            'content-type':'application/json'
+                        },
+                        body: JSON.stringify(edit)
+                    })
+                        .then(res => res.json())
+                        .then(data => {
+                            
+                            console.log(data);
+                        })
                 }
             })
             .catch(er => console.error(er))
@@ -79,11 +103,12 @@ const ProductCard = ({ product }) => {
                     <div className="badge badge-secondary">{category_id}</div>
                 </h2>
                 <p>Used: {years_of_use} years.</p>
+                <p>Condition: {condition}</p>
                 <p>Location: {seller.location}</p>
                 <p>Posted on: {
-                        posting_time
-                    }</p>
-                
+                    posting_time
+                }</p>
+
                 <div className="card-actions flex ">
                     <div className="badge badge-info">Original price: {original_price}</div>
                     <div className="badge badge-secondary">Resale Price: {resale_price}</div>
@@ -99,8 +124,23 @@ const ProductCard = ({ product }) => {
                         <div>
                             <h1 className='mx-3 font-semibold
                     '>{seller.name}</h1>
+
+
                             <h1 className='mx-3 
                     '>Seller</h1>
+
+                    {
+                        isVerifiedSeller?.true?
+                        <>
+                         <img className='w-4' src='https://cdn-icons-png.flaticon.com/512/6364/6364343.png'/>
+                        </>
+                        :
+                        <>
+                        
+                       
+                        </>
+                    }
+                            
 
                         </div>
                     </div>
@@ -110,7 +150,7 @@ const ProductCard = ({ product }) => {
                     </div>
 
                 </div>
-                
+
             </div>
 
             <input type="checkbox" id="my-modal-6" className="modal-toggle" />

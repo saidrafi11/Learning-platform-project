@@ -1,7 +1,44 @@
 import React from 'react';
 
 const Seller = ({seller}) => {
-    const {name, email, photoURL, role} = seller;
+    const {_id, name, email, photoURL, role} = seller;
+    // console.log(seller);
+
+const handleDlt = _id => {
+  const agree = window.confirm(`Are you sure you want to delete ${name} ?`)
+
+  if(agree){
+    fetch(`http://localhost:5000/sellers/${_id}`, {
+      method: 'DELETE',
+
+    })
+    .then(res => res.json())
+    .then(data => {
+
+    })
+  }
+}
+
+
+const isVerified = {isverified: true};
+const verify = (_id)=>{
+
+
+
+  fetch(`http://localhost:5000/allusers/${_id}`, {
+                        method: 'PUT',
+                        headers: {
+                            'content-type':'application/json'
+                        },
+                        body: JSON.stringify(isVerified)
+                    })
+                        .then(res => res.json())
+                        .then(data => {
+                            
+                            console.log(data);
+                        })
+}
+
     return (
         <tr>
         <th>
@@ -29,7 +66,10 @@ const Seller = ({seller}) => {
         </td>
         <td>{role}</td>
         <th>
-          <button className="btn btn-ghost btn-xs">Action</button>
+          <button onClick={()=>handleDlt(_id)} className="btn btn-ghost btn-xs">Delete</button>
+        </th>
+        <th>
+          <button onClick={()=>verify(_id)}  className="btn btn-ghost btn-xs">Verify</button>
         </th>
       </tr>
     );

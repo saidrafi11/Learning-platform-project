@@ -59,6 +59,7 @@ const AddAProduct = () => {
             img: data.data.display_url,
             posting_time: time,
             sellerEmail: user?.email,
+            available: true,
             seller:{
                 name: user?.displayName,
                 location: location,

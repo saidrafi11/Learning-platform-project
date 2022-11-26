@@ -3,6 +3,7 @@ import { AuthContext } from '../../Context/AuthProvider'
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { HashLoader } from 'react-spinners';
+import useToken from '../../hook/useToken';
 
 
 
@@ -15,9 +16,13 @@ const SignUp2 = () => {
   const [loading, setLoading] = useState(true)
   const location = useLocation()
   const navigate = useNavigate();
+  const [createdUserEmail, setCreatedUserEmail] = useState('')
+  const [token] = useToken(createdUserEmail)
   const from = location.state?.from?.pathname || '/';
 
-
+  if(token){
+    navigate(from, { replace: true })
+  }
 
   const handleSignup = event => {
     event.preventDefault();
@@ -65,7 +70,8 @@ const SignUp2 = () => {
                 }).then(res => res.json())
                   .then(data => {
                     console.log(data);
-                    getUserToken(email)
+                    setCreatedUserEmail(email)
+                    // getUserToken(email)
                     setLoading(false)
 
                     
@@ -99,16 +105,16 @@ const SignUp2 = () => {
 
   }
 
-  const getUserToken = email => {
-    fetch(`http://localhost:5000/jwt?email=${email}`)
-    .then(res => res.json())
-    .then(data => {
-      if(data.accessToken){
-        localStorage.setItem('accessToken', data.accessToken)
-        navigate(from, { replace: true })
-      }
-    })
-  }
+  // const getUserToken = email => {
+  //   fetch(`http://localhost:5000/jwt?email=${email}`)
+  //   .then(res => res.json())
+  //   .then(data => {
+  //     if(data.accessToken){
+  //       localStorage.setItem('accessToken', data.accessToken)
+  //       navigate(from, { replace: true })
+  //     }
+  //   })
+  // }
 
 
   const handleGoogleSignIn = () => {
@@ -134,7 +140,8 @@ const SignUp2 = () => {
         }).then(res => res.json())
           .then(data => {
             console.log(data);
-            getUserToken(user.email)
+            setCreatedUserEmail(user.email)
+            // getUserToken(user.email)
             setLoading(false)
             
 

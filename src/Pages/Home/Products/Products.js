@@ -13,7 +13,7 @@ const Products = () => {
             
 
             {
-                products.map(product=><ProductCard product={product}></ProductCard>)
+                products?.map(product=><ProductCard product={product}></ProductCard>)
             }
 
 

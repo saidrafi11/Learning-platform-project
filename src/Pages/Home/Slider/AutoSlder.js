@@ -5,12 +5,15 @@ import '@brainhubeu/react-carousel/lib/style.css';
 const AutoSlder = () => {
     const [advirtiedProduct, setAdvirtiedProduct] = useState([])
     console.log(advirtiedProduct.length);
+    const [loading, setLoading]= useState(true)
+    console.log(loading);
     useEffect(() => {
 
         fetch('http://localhost:5000/advertise')
             .then(res => res.json())
             .then(data => {
                 setAdvirtiedProduct(data)
+                setLoading(false)
                 console.log(data);
             })
 
@@ -21,7 +24,10 @@ const AutoSlder = () => {
             <h1 className='text-3xl text-center p-5'>Advertisements</h1>
             <div className='my-5'>
 
-                <Carousel
+                {
+                   advirtiedProduct.length>0 ? 
+                   <>
+                   <Carousel
                     plugins={[
                         'infinite',
                         {
@@ -42,6 +48,13 @@ const AutoSlder = () => {
 
 
                 </Carousel>
+                   </>
+                   :
+
+                   <>
+                   <h1 className='text-center font-bold text-sky-900'>No Advertisements to show</h1>
+                   </>
+                }
             </div>
         </div>
     );

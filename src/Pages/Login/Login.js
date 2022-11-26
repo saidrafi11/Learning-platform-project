@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { HashLoader } from 'react-spinners';
 import { AuthContext } from '../../Context/AuthProvider';
 
 const Login = () => {
@@ -64,11 +65,28 @@ const Login = () => {
 
             <div className="form-control mt-6">
 
-              <input className="btn btn-primary" type="submit" value="Login"></input>
+              {
+                loading ?
 
-              {/* <div className='mt-5'>
-                <button className="btn btn-wide">Signup with google</button>
-              </div> */}
+                <>
+                <input className="btn btn-primary" type="submit" value="Login"></input>
+                </>
+
+                :
+
+
+                <>
+                
+                <div>
+                    <div className=' min-h-screen flex justify-center m-5'>
+                      <HashLoader color="#36d7b7" />
+                    </div>
+                  </div>
+                
+                </>
+              }
+
+              
 
 
 

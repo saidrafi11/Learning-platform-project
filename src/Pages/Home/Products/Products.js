@@ -1,10 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
-import React from 'react';
+import React, { useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
 import ProductCard from './ProductCard';
 
 const Products = () => {
     const products = useLoaderData();
+    
     
     
     return (
@@ -14,6 +15,8 @@ const Products = () => {
             {
                 products.map(product=><ProductCard product={product}></ProductCard>)
             }
+
+
         </div>
     );
 };

@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { AuthContext } from '../../Context/AuthProvider'
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { HashLoader } from 'react-spinners';
 
 
 
@@ -58,25 +59,25 @@ const SignUp2 = () => {
                 fetch('http://localhost:5000/insertuser', {
                   method: 'POST',
                   headers: {
-                      'content-type': 'application/json'
+                    'content-type': 'application/json'
                   },
                   body: JSON.stringify(userAcc)
-              }).then(res => res.json())
+                }).then(res => res.json())
                   .then(data => {
                     setLoading(false)
-                      navigate(from, {replace: true})
-              
-                      
-                      if (data.acknowledged) {
-                          console.log(data.acknowledged)
-                          
-                          
-      
-                      }else{
-                          toast.success("User created successfully", "User created successfully", "success");
-                          
-                          form.reset();
-                      }
+                    navigate(from, { replace: true })
+
+
+                    if (data.acknowledged) {
+                      console.log(data.acknowledged)
+
+
+
+                    } else {
+                      toast.success("User created successfully", "User created successfully", "success");
+
+                      form.reset();
+                    }
                   })
                   .catch(er => console.error(er))
 
@@ -99,7 +100,7 @@ const SignUp2 = () => {
     providerLogin(googleProvider)
       .then(result => {
         const user = result.user
-        
+
         console.log(user)
 
         const userAcc = {
@@ -112,25 +113,25 @@ const SignUp2 = () => {
         fetch('http://localhost:5000/insertuser', {
           method: 'POST',
           headers: {
-              'content-type': 'application/json'
+            'content-type': 'application/json'
           },
           body: JSON.stringify(userAcc)
-      }).then(res => res.json())
+        }).then(res => res.json())
           .then(data => {
             setLoading(false)
-              navigate(from, {replace: true})
-      
-              
-              if (data.acknowledged) {
-                  console.log(data.acknowledged)
-                  
-                  
+            navigate(from, { replace: true })
 
-              }else{
-                  toast.success("Sign in success", "SSign in success", "success");
-                  // console.log('Sign in success')
-                  
-              }
+
+            if (data.acknowledged) {
+              console.log(data.acknowledged)
+
+
+
+            } else {
+              toast.success("Sign in success", "SSign in success", "success");
+              // console.log('Sign in success')
+
+            }
           })
           .catch(er => console.error(er))
       }).catch(error => console.error(error))
@@ -171,7 +172,7 @@ const SignUp2 = () => {
 
               </label>
             </div>
-        
+
 
 
             <select name='role' className="input select-bordered select-sm w-full max-w-xs">
@@ -196,18 +197,39 @@ const SignUp2 = () => {
             </div>
 
 
-            <div className="form-control mt-6">
+            {
+              loading ?
 
-              <input className="btn btn-info text-white" type="submit" value="Signup"></input>
+                <>
+                  <div className="form-control mt-6">
 
-              <div className='mt-5'>
-                <button onClick={handleGoogleSignIn} className="btn btn-wide">Signup with google</button>
-              </div>
+                    <input className="btn btn-info text-white" type="submit" value="Signup"></input>
+
+                    <div className='mt-5'>
+                      <button onClick={handleGoogleSignIn} className="btn btn-wide">Signup with google</button>
+                    </div>
 
 
 
 
-            </div>
+                  </div>
+                </>
+
+                :
+
+                <>
+                  <div>
+                    <div className=' min-h-screen flex justify-center m-5'>
+                      <HashLoader color="#36d7b7" />
+                    </div>
+                  </div>
+
+                </>
+            }
+
+
+
+
           </form>
           <p className='text-center pb-5'>Already have an account <Link to='/login'>Login</Link></p>
         </div>

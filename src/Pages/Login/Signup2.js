@@ -64,8 +64,10 @@ const SignUp2 = () => {
                   body: JSON.stringify(userAcc)
                 }).then(res => res.json())
                   .then(data => {
+                    getUserToken(email)
                     setLoading(false)
-                    navigate(from, { replace: true })
+
+                    
 
 
                     if (data.acknowledged) {
@@ -96,6 +98,18 @@ const SignUp2 = () => {
 
   }
 
+  const getUserToken = email => {
+    fetch(`http://localhost:5000/jwt?email=${email}`)
+    .then(res => res.json())
+    .then(data => {
+      if(data.accessToken){
+        localStorage.setItem('accessToken', data.accessToken)
+        navigate(from, { replace: true })
+      }
+    })
+  }
+
+
   const handleGoogleSignIn = () => {
     providerLogin(googleProvider)
       .then(result => {
@@ -118,8 +132,10 @@ const SignUp2 = () => {
           body: JSON.stringify(userAcc)
         }).then(res => res.json())
           .then(data => {
+            console.log(data);
+            getUserToken(user.email)
             setLoading(false)
-            navigate(from, { replace: true })
+            
 
 
             if (data.acknowledged) {
@@ -133,7 +149,10 @@ const SignUp2 = () => {
 
             }
           })
+          
           .catch(er => console.error(er))
+
+          
       }).catch(error => console.error(error))
   }
 

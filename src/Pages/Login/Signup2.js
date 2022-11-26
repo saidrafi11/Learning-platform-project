@@ -64,6 +64,7 @@ const SignUp2 = () => {
                   body: JSON.stringify(userAcc)
                 }).then(res => res.json())
                   .then(data => {
+                    console.log(data);
                     getUserToken(email)
                     setLoading(false)
 

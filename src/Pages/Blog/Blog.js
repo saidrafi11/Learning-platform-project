@@ -1,8 +1,14 @@
 import React from 'react';
 import { useLoaderData } from 'react-router-dom';
+import BlogCard from './BlogCard';
 
 const Blog = () => {
+
+
+
+
     const blogs = useLoaderData()
+    console.log(blogs);
     return (
         <div className='p-5'>
 
@@ -13,9 +19,9 @@ const Blog = () => {
         {/* blogs card */}
 
 
-        {/* {
-          blogs.map(b => <BlogCards id={b._id} blog={b}></BlogCards>)
-        } */}
+        {
+          blogs.map(b => <BlogCard b={b}></BlogCard>)
+        }
       </div>
 
 

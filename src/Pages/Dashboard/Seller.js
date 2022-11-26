@@ -20,7 +20,7 @@ const handleDlt = _id => {
 }
 
 
-const isVerified = {isverified: true};
+const isVerified = {isVerifiedSeller: true};
 const verify = (_id)=>{
 
 

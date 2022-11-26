@@ -1,24 +1,49 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material';
-import React, { useContext } from 'react';
+
+import React, { useContext, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { AuthContext } from '../../../Context/AuthProvider';
 
 const ProductCard = ({ product }) => {
 
     const { user } = useContext(AuthContext)
-    console.log(product);
+    const [isVerifiedSeller, setIsVerifiedSeller] =useState(false)
+   
+
+    
+
+
+
     const {
         _id,
         category_id,
         car_model, img,
         resale_price, original_price,
         years_of_use, seller,
-        posting_time, isVerifiedSeller, condition
+        posting_time,  condition, 
+        sellerEmail
 
 
     } = product;
 
-    const edit = {available: "Not available"};
+    
+    useEffect(()=>{
+
+        fetch(`http://localhost:5000/verifiedseller?email=${
+            sellerEmail}`)
+        .then(res => res.json())
+        .then(data => {
+
+            if(data.length > 0 ){
+                setIsVerifiedSeller(true)
+               
+            }
+           
+        })
+
+    },[])
+
+
+    const edit = { available: "Not available" };
 
     const handleSubmit = event => {
         event.preventDefault();
@@ -62,7 +87,7 @@ const ProductCard = ({ product }) => {
 
 
                 } else {
-                    toast.success("Good job!", "Services added success", "success");
+                    toast.success("Product booked!", "Services added success", "success");
                     console.log('product added success')
                     form.reset();
 
@@ -70,21 +95,21 @@ const ProductCard = ({ product }) => {
                     // fetch(`http://localhost:5000/allproducts?_id=${_id}`)
                     //     .then(res => res.json())
                     //     .then(data => {
-                            
+
                     //         console.log(data);
                     //     })
 
-                    
+
                     fetch(`http://localhost:5000/allproducts/${_id}`, {
                         method: 'PUT',
                         headers: {
-                            'content-type':'application/json'
+                            'content-type': 'application/json'
                         },
                         body: JSON.stringify(edit)
                     })
                         .then(res => res.json())
                         .then(data => {
-                            
+
                             console.log(data);
                         })
                 }
@@ -122,25 +147,34 @@ const ProductCard = ({ product }) => {
 
                         </div>
                         <div>
-                            <h1 className='mx-3 font-semibold
-                    '>{seller.name}</h1>
+                            <div className='flex items-center'>
+                                <div>
+                                    <h1 className='mx-3 font-semibold flex-1'>{seller.name}</h1>
+                                </div>
+                                <div>
+
+                                    {
+                                        isVerifiedSeller ?
+                                            <>
+                                                <img className='w-4' src='https://cdn-icons-png.flaticon.com/512/6364/6364343.png' />
+                                            </>
+                                            :
+                                            <>
+
+
+                                            </>
+                                    }
+
+                                </div>
+
+                            </div>
 
 
                             <h1 className='mx-3 
                     '>Seller</h1>
 
-                    {
-                        isVerifiedSeller?.true?
-                        <>
-                         <img className='w-4' src='https://cdn-icons-png.flaticon.com/512/6364/6364343.png'/>
-                        </>
-                        :
-                        <>
-                        
-                       
-                        </>
-                    }
-                            
+
+
 
                         </div>
                     </div>

@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { AuthContext } from '../../Context/AuthProvider'
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
 
@@ -11,6 +11,12 @@ import toast from 'react-hot-toast';
 const SignUp2 = () => {
 
   const { createUser, updateUserProfile, providerLogin, googleProvider } = useContext(AuthContext)
+  const [loading, setLoading] = useState(true)
+  const location = useLocation()
+  const navigate = useNavigate();
+  const from = location.state?.from?.pathname || '/';
+
+
 
   const handleSignup = event => {
     event.preventDefault();
@@ -20,8 +26,8 @@ const SignUp2 = () => {
     const password = form.password.value
     const role = form.role.value
     const image = event.target.image.files[0]
-    // setLoading(true)
-    console.log(name, email, password, image, role)
+    setLoading(true)
+    // console.log(name, email, password, image, role)
 
     const formData = new FormData()
     formData.append('image', image)
@@ -33,13 +39,13 @@ const SignUp2 = () => {
     })
       .then(res => res.json())
       .then(data => {
-        console.log(data)
+        // console.log(data)
 
         createUser(email, password)
           .then(result => {
-            console.log(email, password);
+            // console.log(email, password);
             const user = result.user;
-            console.log(user)
+            // console.log(user)
             updateUserProfile(name, data.data.display_url, role)
               .then(() => {
                 const userAcc = {
@@ -57,7 +63,8 @@ const SignUp2 = () => {
                   body: JSON.stringify(userAcc)
               }).then(res => res.json())
                   .then(data => {
-                      // navigate(from, {replace: true})
+                    setLoading(false)
+                      navigate(from, {replace: true})
               
                       
                       if (data.acknowledged) {
@@ -66,8 +73,8 @@ const SignUp2 = () => {
                           
       
                       }else{
-                          toast.success("Good job!", "Services added success", "success");
-                          console.log('Services added success')
+                          toast.success("User created successfully", "User created successfully", "success");
+                          
                           form.reset();
                       }
                   })
@@ -92,7 +99,7 @@ const SignUp2 = () => {
     providerLogin(googleProvider)
       .then(result => {
         const user = result.user
-        // navigate(from, {replace: true})
+        
         console.log(user)
 
         const userAcc = {
@@ -110,7 +117,8 @@ const SignUp2 = () => {
           body: JSON.stringify(userAcc)
       }).then(res => res.json())
           .then(data => {
-              // navigate(from, {replace: true})
+            setLoading(false)
+              navigate(from, {replace: true})
       
               
               if (data.acknowledged) {
@@ -119,8 +127,8 @@ const SignUp2 = () => {
                   
 
               }else{
-                  toast.success("Good job!", "Services added success", "success");
-                  console.log('Services added success')
+                  toast.success("Sign in success", "SSign in success", "success");
+                  // console.log('Sign in success')
                   
               }
           })
@@ -190,7 +198,7 @@ const SignUp2 = () => {
 
             <div className="form-control mt-6">
 
-              <input className="btn btn-primary" type="submit" value="Signup"></input>
+              <input className="btn btn-info text-white" type="submit" value="Signup"></input>
 
               <div className='mt-5'>
                 <button onClick={handleGoogleSignIn} className="btn btn-wide">Signup with google</button>

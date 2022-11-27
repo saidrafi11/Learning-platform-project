@@ -46,7 +46,7 @@ const Navbar = () => {
           </label>
           <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
             <li>
-              <Link to='/dashboard' className="justify-between">
+              <Link to='/dashboard/myorders' className="justify-between">
                 Dashboard
                 <span className="badge">New</span>
               </Link>

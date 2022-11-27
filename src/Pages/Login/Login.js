@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { HashLoader } from 'react-spinners';
 import { AuthContext } from '../../Context/AuthProvider';
+import useToken from '../../hook/useToken';
 
 const Login = () => {
 
@@ -9,7 +10,15 @@ const Login = () => {
   const location = useLocation()
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true)
+  const [loginUserEmail, setLoginUserEmail] = useState('')
+  const [token]= useToken(loginUserEmail)
+  console.log(token, loginUserEmail);
+
   const from = location.state?.from?.pathname || '/';
+
+  if(token){
+    navigate(from, { replace: true })
+  }
 
   const handleLogin = event => {
     event.preventDefault();
@@ -24,11 +33,13 @@ const Login = () => {
       .then(result => {
         const currentUser = result.user;
         console.log(currentUser)
-
+        setLoginUserEmail(currentUser.email)
         setLoading(false)
-        navigate(from, { replace: true })
+        
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        setLoading(false)
+        console.log(err)})
 
   }
   return (

@@ -1,9 +1,13 @@
 import React, { useContext } from 'react';
 import toast from 'react-hot-toast';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../Context/AuthProvider';
 
 const AddAProduct = () => {
     const { user } = useContext(AuthContext)
+    const location = useLocation()
+  const navigate = useNavigate();
+  const from = location.state?.from?.pathname || '/dashboard/myproducts';
 
     const handleSubmit = event => {
         event.preventDefault();
@@ -86,8 +90,8 @@ const AddAProduct = () => {
                           
       
                       }else{
-                          toast.success("Good job!", "Services added success", "success");
-                          console.log('product added success')
+                          toast.success("Product added!", "Services added success", "success");
+                          navigate(from, { replace: true })
                           form.reset();
                       }
                   })

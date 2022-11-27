@@ -13,6 +13,8 @@ import SignUp2 from "../../Pages/Login/Signup2";
 import Main from "../Main";
 import NotFound from "../Navbar/NotFound/NotFound";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
+import AdminRoute from "./AdminRoute";
+import SellerRoute from "./SellerRoute";
 
 const router = createBrowserRouter([
     {
@@ -56,31 +58,31 @@ const router = createBrowserRouter([
                     {
                         
                             path:'/dashboard/addproduct',
-                            element:<AddAProduct></AddAProduct>
+                            element:<SellerRoute><AddAProduct></AddAProduct></SellerRoute>
                         
                     },
                     {
                         
                             path:'/dashboard/myorders',
-                            element:<MyOrders></MyOrders>
+                            element:<PrivateRoute><MyOrders></MyOrders></PrivateRoute>
                         
                     },
                     {
                         
                             path:'/dashboard/myproducts',
-                            element:<MyProducts></MyProducts>
+                            element:<SellerRoute><MyProducts></MyProducts></SellerRoute>
                         
                     },
                     {
                         
                             path:'/dashboard/allsellers',
-                            element:<AllSellers></AllSellers>
+                            element:<AdminRoute><AllSellers></AllSellers></AdminRoute>
                         
                     },
                     {
                         
                             path:'/dashboard/allusers',
-                            element:<AllUsers></AllUsers>
+                            element:<AdminRoute><AllUsers></AllUsers></AdminRoute>
                         
                     }
                 ]

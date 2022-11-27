@@ -1,4 +1,5 @@
 import React from 'react';
+import toast from 'react-hot-toast';
 
 const Seller = ({seller}) => {
     const {_id, name, email, photoURL, role} = seller;
@@ -34,7 +35,7 @@ const verify = (_id)=>{
                     })
                         .then(res => res.json())
                         .then(data => {
-                            
+                            toast.success('Verified!')
                             console.log(data);
                         })
 }

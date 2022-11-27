@@ -2,17 +2,17 @@
 import React, { useContext, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { AuthContext } from '../../../Context/AuthProvider';
+import BookingModal from './BookingModal';
 
 const ProductCard = ({ product }) => {
+    // console.log(product);
 
     const { user } = useContext(AuthContext)
     const [isVerifiedSeller, setIsVerifiedSeller] =useState(false)
-   
-
     
-
-
-
+   
+    // console.log(productForModal);
+   
     const {
         _id,
         category_id,
@@ -24,6 +24,36 @@ const ProductCard = ({ product }) => {
 
 
     } = product;
+
+    const [productForModal, setProductForModal] = useState([])
+    
+
+    useEffect(()=>{
+
+        fetch(`http://localhost:5000/product?id=${_id}`)
+        .then(res => res.json())
+        .then(data => {
+
+            setProductForModal(data);
+           
+        })
+
+    },[])
+    console.log(productForModal);
+
+    // useEffect(()=>{
+
+    //     fetch(`http://localhost:5000/product?id=${_id}`)
+    //     .then(res => res.json())
+    //     .then(data => {
+
+    //         setProductForModal(data);
+           
+    //     })
+
+    // },[])
+
+
 
     
     useEffect(()=>{
@@ -43,7 +73,7 @@ const ProductCard = ({ product }) => {
     },[])
 
 
-    const edit = { available: "Not available" };
+    const edit = { available: false };
 
     const handleSubmit = event => {
         event.preventDefault();
@@ -120,9 +150,16 @@ const ProductCard = ({ product }) => {
     }
 
     return (
-        <div className="card w-96 bg-base-100 shadow-xl m-5">
-            <figure><img src={img} alt={car_model} /></figure>
-            <div className="card-body">
+        <div className="card w-96 bg-base-100 shadow-xl m-5 ">
+    
+           <figure><img src={img} alt={car_model} /></figure>
+           
+
+
+            
+            <div className="card-body h">
+
+                
                 <h2 className="card-title">
                     {car_model}
                     <div className="badge badge-secondary">{category_id}</div>
@@ -134,9 +171,9 @@ const ProductCard = ({ product }) => {
                     posting_time
                 }</p>
 
-                <div className="card-actions flex ">
-                    <div className="badge badge-info">Original price: {original_price}</div>
-                    <div className="badge badge-secondary">Resale Price: {resale_price}</div>
+                <div className="card-actions flex justify-between">
+                    <div className="badge badge-info text-white font-bold">Original price: {original_price} BDT</div>
+                    <div className="badge badge-secondary text-white font-bold">Resale Price: {resale_price} BDT</div>
                 </div>
                 <div className='flex justify-between my-auto mt-3'>
                     <div className='flex justify-between '>
@@ -190,40 +227,13 @@ const ProductCard = ({ product }) => {
             <input type="checkbox" id="my-modal-6" className="modal-toggle" />
 
 
-            <div className="modal modal-bottom sm:modal-middle">
-                <div className="modal-box">
-                    <h3 className="font-bold text-lg text-center p-5">Confirm your booking</h3>
-                    <div>
-                        <form onSubmit={handleSubmit} >
-                            <div className='grid grid-rows-6 grid-flow-col gap-4 justify-center w-full'>
-                                <input name='name' type="text" placeholder="Your name" className="input input-bordered w-full max-w-xs" defaultValue={user?.displayName} />
-
-                                <input name='email' type="text" placeholder="Email" className="input input-bordered w-full max-w-xs" defaultValue={user?.email} />
-
-                                <input name='productName' type="text" placeholder="Your name"
-                                    defaultValue={car_model} disabled className="input input-bordered w-full max-w-xs" />
-                                <input name='price' type="text" placeholder="Price" defaultValue={resale_price} disabled className="input input-bordered w-full max-w-xs " />
-                                <input name='phone' type="text" placeholder="Phone number" className="input input-bordered w-full max-w-xs " />
-                                <input name='location' type="text" placeholder="Location" className="input input-bordered w-full max-w-xs " />
-
-
-                            </div>
-
-
-
-                            <div className="modal-action">
-                                <input htmlFor="my-modal-6" className='btn' type="submit" value="Confirm"></input>
-                                <label htmlFor="my-modal-6" className="btn">Done</label>
-                            </div>
-                        </form>
-
-                    </div>
-                    {/* <div className="modal-action">
-                        <label htmlFor="my-modal-6" className="btn">Yay!</label>
-                    </div> */}
-                </div>
-            </div>
-
+       {/* {
+        productForModal?.map(product => <BookingModal product={product}></BookingModal>)
+       }     */}
+ <BookingModal productForModal={productForModal} product={product}
+ handleSubmit={handleSubmit}
+ user={user}
+ ></BookingModal>
 
         </div>
     );

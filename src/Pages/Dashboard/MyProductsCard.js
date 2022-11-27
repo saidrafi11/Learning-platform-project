@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 
 const MyProductCard = ({ product }) => {
 const [btn, setBTN] = useState(true);
+const [available, setAvailable] = useState(true)
 
 
 
@@ -15,12 +16,29 @@ const [btn, setBTN] = useState(true);
         resale_price, original_price,
         years_of_use, seller,
         posting_time,
-        available
+        
 
     } = product;
     console.log(
         available
     );
+
+    useEffect(()=>{
+
+        fetch(`http://localhost:5000/available?id=${_id}`)
+        .then(res => res.json())
+        .then(data => {
+            if(data.length>0){
+                setAvailable(false)
+                console.log(data.length);
+            }
+            console.log({avaiable: data});
+        })
+
+    },[product])
+
+
+
 
     const handleAdvertise = () => {
 
@@ -72,26 +90,30 @@ const [btn, setBTN] = useState(true);
                     posting_time
                 }</p>
 
-                <div className="card-actions flex ">
-                    <div className="badge badge-info">Original price: {original_price}</div>
-                    <div className="badge badge-secondary">Resale Price: {resale_price}</div>
+                <div className="card-actions flex justify-between">
+                    <div className="badge badge-info text-white font-bold">Original price: {original_price} BDT</div>
+                    <div className="badge badge-secondary text-white font-bold">Resale Price: {resale_price} BDT</div>
                 </div>
-                <div className='flex justify-between my-auto mt-3'>
-                    <div className='flex justify-between '>
-                        <div className="avatar max-w-3/4">
+                <div className=''>
+                    <div className='flex justify-between items-center'>
+                        
 
 
-                        </div>
+                        
+
                         {
-                             btn?.true ?
+                             available?
                             <>
-                            
+                                <div>
+                            <label htmlFor="my-modal-6" className="btn btn-sm btn-success text-white" onClick={handleAdvertise}>Advertise</label>
+                        </div>
+
+
+                            <div className="badge badge-success text-white font-bold">Available</div>
                             </>
                             :
                             <>
-                            <div>
-                            <label htmlFor="my-modal-6" className="btn btn-sm btn-success text-white" onClick={handleAdvertise}>Advertise</label>
-                        </div>
+                            <div className="badge badge-error text-white font-bold">Booked</div>
                             </>
                         }
                     </div>

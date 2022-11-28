@@ -103,13 +103,13 @@ const ProductCard = ({ product , setProductForModal}) => {
                 }</p>
 
                 <div className="card-actions flex justify-between">
-                    <div className="badge badge-info text-white font-bold">Original price: {original_price} BDT</div>
-                    <div className="badge badge-secondary text-white font-bold">Resale Price: {resale_price} BDT</div>
+                    <div className="badge badge-outline badge-info text-white font-bold">Original price: {original_price} BDT</div>
+                    <div className="badge badge-secondary   badge-outline font-bold">Resale Price: {resale_price} BDT</div>
                 </div>
                 <div className='flex justify-between my-auto mt-3'>
-                    <div className='flex justify-between '>
+                    <div className='flex justify-between'>
                         <div className="avatar max-w-3/4">
-                            <div className="w-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                            <div className="w-12 h-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
                                 <img src={seller.img_url} />
                             </div>
 
@@ -147,15 +147,15 @@ const ProductCard = ({ product , setProductForModal}) => {
                         </div>
                     </div>
 
-                    <div>
+                    <div className='flex flex-col-reverse'>
                         <label onClick={()=> setProductForModal(product)} htmlFor="bookingModal" className="btn btn-sm btn-success text-white">Book now</label>
-                        
+                        <button className="btn btn-xs btn-error mb-2 text-white">Report</button>
                     </div>
-
+                    
                 </div>
 
             </div>
-
+            
 
         </div>
     );

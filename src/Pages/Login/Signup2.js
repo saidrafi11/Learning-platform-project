@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../Context/AuthProvider'
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
@@ -20,9 +20,11 @@ const SignUp2 = () => {
   const [token] = useToken(createdUserEmail)
   const from = location.state?.from?.pathname || '/';
 
-  if(token){
-    navigate(from, { replace: true })
-  }
+  useEffect(()=>{
+    if(token){
+      navigate(from, { replace: true })
+    }
+  },[token])
 
   const handleSignup = event => {
     event.preventDefault();

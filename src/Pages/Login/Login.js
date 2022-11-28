@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { HashLoader } from 'react-spinners';
 import { AuthContext } from '../../Context/AuthProvider';
@@ -16,9 +16,11 @@ const Login = () => {
 
   const from = location.state?.from?.pathname || '/';
 
-  if(token){
-    navigate(from, { replace: true })
-  }
+  useEffect(()=>{
+    if(token){
+      navigate(from, { replace: true })
+    }
+  },[token])
 
   const handleLogin = event => {
     setLoading(true)

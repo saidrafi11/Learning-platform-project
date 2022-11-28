@@ -149,22 +149,13 @@ const ProductCard = ({ product , setProductForModal}) => {
 
                     <div>
                         <label onClick={()=> setProductForModal(product)} htmlFor="bookingModal" className="btn btn-sm btn-success text-white">Book now</label>
+                        
                     </div>
 
                 </div>
 
             </div>
 
-            {/* <input type="checkbox" id="my-modal-6" className="modal-toggle" /> */}
-
-
-       {/* {
-        productForModal?.map(product => <BookingModal product={product}></BookingModal>)
-       }     */}
- {/* <BookingModal productForModal={productForModal} product={product}
- handleSubmit={handleSubmit}
- user={user}
- ></BookingModal> */}
 
         </div>
     );

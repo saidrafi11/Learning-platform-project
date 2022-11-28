@@ -38,12 +38,12 @@ const router = createBrowserRouter([
             {
                 path:'/blog',
                 element:<Blog></Blog>,
-                loader:()=> fetch('http://localhost:5000/blog')
+                loader:()=> fetch('https://wamp-server.vercel.app/blog')
             },
             {
                 path:'/category/:id',
                 element:<PrivateRoute><Products></Products></PrivateRoute>,
-                loader: ({params})=> fetch(`http://localhost:5000/category/${params.id}`)
+                loader: ({params})=> fetch(`https://wamp-server.vercel.app/category/${params.id}`)
             }
             
         ]

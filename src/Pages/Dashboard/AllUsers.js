@@ -4,14 +4,14 @@ import User from './User';
 
 const AllUsers = () => {
     const {user} = useContext(AuthContext)
-    const [users, setUser] = useState([])
+    const [users, setUsers] = useState([])
 
     useEffect(()=>{
 
-        fetch('http://localhost:5000/allusers')
+        fetch('https://wamp-server.vercel.app/allusers')
         .then(res => res.json())
         .then(data => {
-            setUser(data)
+            setUsers(data)
             console.log(data);
         })
 

@@ -25,7 +25,7 @@ const [available, setAvailable] = useState(true)
 
     useEffect(()=>{
 
-        fetch(`http://localhost:5000/available?id=${_id}`)
+        fetch(`https://wamp-server.vercel.app/available?id=${_id}`)
         .then(res => res.json())
         .then(data => {
             if(data.length>0){
@@ -45,7 +45,7 @@ const [available, setAvailable] = useState(true)
         const advirtiseProduct = product;
 
 
-        fetch('http://localhost:5000/advertise', {
+        fetch('https://wamp-server.vercel.app/advertise', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -83,7 +83,7 @@ const [available, setAvailable] = useState(true)
                     {car_model}
                     <div className="badge badge-secondary">{category_id}</div>
                 </h2>
-                <p>Status: available: {available}</p>
+                
                 <p>Used: {years_of_use} years.</p>
                 <p>Location: {seller.location}</p>
                 <p>Posted on: {

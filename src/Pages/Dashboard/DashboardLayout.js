@@ -9,7 +9,9 @@ import useSeller from '../../hook/useSeller';
 const DashboardLayout = () => {
     const { user } = useContext(AuthContext)
     const [isSeller] = useSeller(user?.email)
+    // console.log(isSeller);
     const [isAdmin] = useAdmin(user?.email)
+    console.log(isSeller, isAdmin);
     return (
         <div>
             <Navbar></Navbar>

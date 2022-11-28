@@ -1,10 +1,11 @@
 
+import { format } from 'date-fns';
 import React, { useContext, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { AuthContext } from '../../../Context/AuthProvider';
 import BookingModal from './BookingModal';
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product , setProductForModal}) => {
     // console.log(product);
 
     const { user } = useContext(AuthContext)
@@ -25,25 +26,27 @@ const ProductCard = ({ product }) => {
 
     } = product;
 
-    const [productForModal, setProductForModal] = useState([])
     
-
-    useEffect(()=>{
-
-        fetch(`http://localhost:5000/product?id=${_id}`)
-        .then(res => res.json())
-        .then(data => {
-
-            setProductForModal(data);
-           
-        })
-
-    },[])
-    console.log(productForModal);
+    // const postTime = format(posting_time, "PP")
+    // console.log(postTime);
+    
 
     // useEffect(()=>{
 
-    //     fetch(`http://localhost:5000/product?id=${_id}`)
+    //     fetch(`https://wamp-server.vercel.app/product?id=${_id}`)
+    //     .then(res => res.json())
+    //     .then(data => {
+
+    //         setProductForModal(data);
+           
+    //     })
+
+    // },[])
+    // console.log(productForModal);
+
+    // useEffect(()=>{
+
+    //     fetch(`https://wamp-server.vercel.app/product?id=${_id}`)
     //     .then(res => res.json())
     //     .then(data => {
 
@@ -58,7 +61,7 @@ const ProductCard = ({ product }) => {
     
     useEffect(()=>{
 
-        fetch(`http://localhost:5000/verifiedseller?email=${
+        fetch(`https://wamp-server.vercel.app/verifiedseller?email=${
             sellerEmail}`)
         .then(res => res.json())
         .then(data => {
@@ -73,81 +76,9 @@ const ProductCard = ({ product }) => {
     },[])
 
 
-    const edit = { available: false };
+    
 
-    const handleSubmit = event => {
-        event.preventDefault();
-        const form = event.target
-        const name = form.name.value
-        const email = form.email.value
-        const productName = form.productName.value
-        const price = form.price.value
-        const phone = form.phone.value
-        const location = form.location.value
-        console.log(name, email, productName, price, location, phone);
-
-
-        const bookingInfo = {
-            product_id: _id,
-            buyerName: name,
-            email: email,
-            productName: productName,
-            price: price,
-            phone: phone,
-            location: location,
-            img: img
-
-        }
-
-
-        fetch('http://localhost:5000/allbookings', {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify(bookingInfo)
-        }).then(res => res.json())
-            .then(data => {
-                // navigate(from, {replace: true})
-
-
-                if (data.acknowledged) {
-                    console.log(data.acknowledged)
-
-
-
-                } else {
-                    toast.success("Product booked!", "Services added success", "success");
-                    console.log('product added success')
-                    form.reset();
-
-
-                    // fetch(`http://localhost:5000/allproducts?_id=${_id}`)
-                    //     .then(res => res.json())
-                    //     .then(data => {
-
-                    //         console.log(data);
-                    //     })
-
-
-                    fetch(`http://localhost:5000/allproducts/${_id}`, {
-                        method: 'PUT',
-                        headers: {
-                            'content-type': 'application/json'
-                        },
-                        body: JSON.stringify(edit)
-                    })
-                        .then(res => res.json())
-                        .then(data => {
-
-                            console.log(data);
-                        })
-                }
-            })
-            .catch(er => console.error(er))
-
-
-    }
+    
 
     return (
         <div className="card w-96 bg-base-100 shadow-xl m-5 ">
@@ -168,7 +99,7 @@ const ProductCard = ({ product }) => {
                 <p>Condition: {condition}</p>
                 <p>Location: {seller.location}</p>
                 <p>Posted on: {
-                    posting_time
+                  posting_time
                 }</p>
 
                 <div className="card-actions flex justify-between">
@@ -217,23 +148,23 @@ const ProductCard = ({ product }) => {
                     </div>
 
                     <div>
-                        <label htmlFor="my-modal-6" className="btn btn-sm btn-success text-white">Book now</label>
+                        <label onClick={()=> setProductForModal(product)} htmlFor="bookingModal" className="btn btn-sm btn-success text-white">Book now</label>
                     </div>
 
                 </div>
 
             </div>
 
-            <input type="checkbox" id="my-modal-6" className="modal-toggle" />
+            {/* <input type="checkbox" id="my-modal-6" className="modal-toggle" /> */}
 
 
        {/* {
         productForModal?.map(product => <BookingModal product={product}></BookingModal>)
        }     */}
- <BookingModal productForModal={productForModal} product={product}
+ {/* <BookingModal productForModal={productForModal} product={product}
  handleSubmit={handleSubmit}
  user={user}
- ></BookingModal>
+ ></BookingModal> */}
 
         </div>
     );

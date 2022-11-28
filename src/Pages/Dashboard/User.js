@@ -1,4 +1,6 @@
+
 import React from 'react';
+import toast from 'react-hot-toast';
 
 const User = ({user}) => {
     const {_id, name, email, photoURL, role} = user;
@@ -7,13 +9,21 @@ const User = ({user}) => {
       const agree = window.confirm(`Are you sure you want to delete ${name} ?`)
     
       if(agree){
-        fetch(`http://localhost:5000/users/${_id}`, {
+        fetch(`https://wamp-server.vercel.app/users/${_id}`, {
           method: 'DELETE',
     
         })
         .then(res => res.json())
         .then(data => {
-    
+          console.log(data);
+          if(data.deletedCount > 0){
+            toast.success('User deleted!')
+
+          }
+          else{
+            toast.error('Delete operation failed!')
+          }
+          
         })
       }
     }

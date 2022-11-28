@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
+import { AuthContext } from '../../../Context/AuthProvider';
 
-const BookingModal = ({productForModal,product, handleSubmit, user}) => {
-// console.log(productForModal);
+const BookingModal = ({productForModal}) => {
+console.log(productForModal);
+const {user} = useContext(AuthContext)
 
     const {
         _id,
@@ -13,9 +16,83 @@ const BookingModal = ({productForModal,product, handleSubmit, user}) => {
         sellerEmail
 
 
-    } = product;
+    } = productForModal;
+
+    
+    const edit = { available: false };
+    const handleSubmit = event => {
+        event.preventDefault();
+        const form = event.target
+        const name = form.name.value
+        const email = form.email.value
+        const productName = form.productName.value
+        const price = form.price.value
+        const phone = form.phone.value
+        const location = form.location.value
+        console.log(name, email, productName, price, location, phone);
 
 
+        const bookingInfo = {
+            product_id: _id,
+            buyerName: name,
+            email: email,
+            productName: productName,
+            price: price,
+            phone: phone,
+            location: location,
+            img: img
+
+        }
+
+
+        fetch('https://wamp-server.vercel.app/allbookings', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(bookingInfo)
+        }).then(res => res.json())
+            .then(data => {
+                // navigate(from, {replace: true})
+
+
+                if (data.acknowledged) {
+                    console.log(data.acknowledged)
+
+
+
+                } else {
+                    toast.success("Product booked!", "Services added success", "success");
+                    console.log('product added success')
+                    form.reset();
+
+
+                    // fetch(`https://wamp-server.vercel.app/allproducts?_id=${_id}`)
+                    //     .then(res => res.json())
+                    //     .then(data => {
+
+                    //         console.log(data);
+                    //     })
+
+
+                    fetch(`https://wamp-server.vercel.app/allproducts/${_id}`, {
+                        method: 'PUT',
+                        headers: {
+                            'content-type': 'application/json'
+                        },
+                        body: JSON.stringify(edit)
+                    })
+                        .then(res => res.json())
+                        .then(data => {
+
+                            console.log(data);
+                        })
+                }
+            })
+            .catch(er => console.error(er))
+
+
+    }
 
     
 
@@ -23,6 +100,11 @@ const BookingModal = ({productForModal,product, handleSubmit, user}) => {
     
     
     return (
+
+      <>
+      
+      <input type="checkbox" id="bookingModal" className="modal-toggle" />
+        
         <div className="modal modal-bottom sm:modal-middle">
                 <div className="modal-box">
                     <h3 className="font-bold text-lg text-center p-5">Confirm your booking</h3>
@@ -45,8 +127,8 @@ const BookingModal = ({productForModal,product, handleSubmit, user}) => {
 
 
                             <div className="modal-action">
-                                <input htmlFor="my-modal-6" className='btn' type="submit" value="Confirm"></input>
-                                <label htmlFor="my-modal-6" className="btn">Done</label>
+                                <input htmlFor="bookingModal" className='btn' type="submit" value="Confirm"></input>
+                                <label htmlFor="bookingModal" className="btn">Done</label>
                             </div>
                         </form>
 
@@ -56,6 +138,8 @@ const BookingModal = ({productForModal,product, handleSubmit, user}) => {
                     </div> */}
                 </div>
             </div>
+
+      </>
     );
 };
 

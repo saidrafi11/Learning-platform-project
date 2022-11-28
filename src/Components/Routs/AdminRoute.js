@@ -7,10 +7,11 @@ import useAdmin from '../../hook/useAdmin';
 const AdminRoute = ({children}) => {
 
     const { user, loading } = useContext(AuthContext);
-    const [isAdmin] = useAdmin(user?.email)
+    const [isAdmin, adminLoading] = useAdmin(user?.email)
+   console.log(isAdmin);
 
     const location = useLocation()
-    if (loading) {
+    if (loading || adminLoading) {
         return <div className='flex justify-center'>
             <HashLoader color="#36d7b7" />
         </div>

@@ -9,7 +9,7 @@ const handleDlt = _id => {
   const agree = window.confirm(`Are you sure you want to delete ${name} ?`)
 
   if(agree){
-    fetch(`http://localhost:5000/sellers/${_id}`, {
+    fetch(`https://wamp-server.vercel.app/sellers/${_id}`, {
       method: 'DELETE',
 
     })
@@ -26,7 +26,7 @@ const verify = (_id)=>{
 
 
 
-  fetch(`http://localhost:5000/allusers/${_id}`, {
+  fetch(`https://wamp-server.vercel.app/allusers/${_id}`, {
                         method: 'PUT',
                         headers: {
                             'content-type':'application/json'

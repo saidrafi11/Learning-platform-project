@@ -12,7 +12,7 @@ const [myProducts, setMyProducts] = useState([])
 
     useEffect(()=>{
 
-        fetch(`http://localhost:5000/my-products?email=${user?.email}`)
+        fetch(`https://wamp-server.vercel.app/my-products?email=${user?.email}`)
         .then(res => res.json())
         .then(data => {
             setMyProducts(data)

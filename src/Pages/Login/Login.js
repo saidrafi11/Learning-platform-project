@@ -21,6 +21,8 @@ const Login = () => {
   }
 
   const handleLogin = event => {
+    setLoading(true)
+
     event.preventDefault();
     const form = event.target;
 
@@ -33,7 +35,7 @@ const Login = () => {
       .then(result => {
         const currentUser = result.user;
         console.log(currentUser)
-        setLoginUserEmail(currentUser.email)
+        setLoginUserEmail(currentUser?.email)
         setLoading(false)
         
       })

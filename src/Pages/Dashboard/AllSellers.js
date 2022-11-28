@@ -10,7 +10,7 @@ const AllSellers = () => {
 
     useEffect(()=>{
 
-        fetch('http://localhost:5000/allsellers')
+        fetch('https://wamp-server.vercel.app/allsellers')
         .then(res => res.json())
         .then(data => {
             setSeller(data)

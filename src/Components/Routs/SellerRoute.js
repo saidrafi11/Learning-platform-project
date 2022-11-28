@@ -7,11 +7,11 @@ import useSeller from '../../hook/useSeller';
 
 const SellerRoute = ({children}) => {
 
-    const { user, loading } = useContext(AuthContext);
-    const [isSeller] = useSeller(user?.email)
+    const { user, loading, logOut } = useContext(AuthContext);
+    const [isSeller, sellerLoading] = useSeller(user?.email)
 
     const location = useLocation()
-    if (loading) {
+    if (loading || sellerLoading) {
         return <div className='flex justify-center'>
             <HashLoader color="#36d7b7" />
         </div>
@@ -21,7 +21,7 @@ const SellerRoute = ({children}) => {
         return children;
     }
     return (
-        <Navigate to='/login' state={{ from: location }} replace></Navigate>
+        <Navigate  to='/login' state={{ from: location }} replace></Navigate>
     );
 };
 

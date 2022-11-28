@@ -9,7 +9,7 @@ const MyOrders = () => {
 
     useEffect(()=>{
 
-        fetch(`http://localhost:5000/my-orders?email=${user?.email}`,{
+        fetch(`https://wamp-server.vercel.app/my-orders?email=${user?.email}`,{
           headers:{
             authorization: `bearer ${localStorage.getItem('accessToken')}`
           }

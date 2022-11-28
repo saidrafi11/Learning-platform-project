@@ -51,17 +51,17 @@ const SignUp2 = () => {
           .then(result => {
             // console.log(email, password);
             const user = result.user;
-            // console.log(user)
+            console.log(user)
             updateUserProfile(name, data.data.display_url, role)
               .then(() => {
                 const userAcc = {
                   name: name,
-                  email: email,
+                  email: user.email,
                   photoUrl: user.photoURL,
                   role: role
                 }
                 console.log(userAcc);
-                fetch('http://localhost:5000/insertuser', {
+                fetch('https://wamp-server.vercel.app/insertuser', {
                   method: 'POST',
                   headers: {
                     'content-type': 'application/json'
@@ -70,7 +70,7 @@ const SignUp2 = () => {
                 }).then(res => res.json())
                   .then(data => {
                     console.log(data);
-                    setCreatedUserEmail(email)
+                    setCreatedUserEmail(user.email)
                     // getUserToken(email)
                     setLoading(false)
 
@@ -106,7 +106,7 @@ const SignUp2 = () => {
   }
 
   // const getUserToken = email => {
-  //   fetch(`http://localhost:5000/jwt?email=${email}`)
+  //   fetch(`https://wamp-server.vercel.app/jwt?email=${email}`)
   //   .then(res => res.json())
   //   .then(data => {
   //     if(data.accessToken){
@@ -131,7 +131,7 @@ const SignUp2 = () => {
           role: 'user'
         }
         console.log(userAcc);
-        fetch('http://localhost:5000/insertuser', {
+        fetch('https://wamp-server.vercel.app/insertuser', {
           method: 'POST',
           headers: {
             'content-type': 'application/json'

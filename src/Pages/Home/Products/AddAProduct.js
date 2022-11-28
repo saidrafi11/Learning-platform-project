@@ -73,7 +73,7 @@ const AddAProduct = () => {
         }
 
 
-        fetch('http://localhost:5000/insertproduct', {
+        fetch('https://wamp-server.vercel.app/insertproduct', {
                   method: 'POST',
                   headers: {
                       'content-type': 'application/json'

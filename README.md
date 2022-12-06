@@ -11,4 +11,4 @@ Hi this is Saidur Rahman. I developed this project as a resale market place site
 6. Seller can add products, advertise unsold procucts.  If a product is booked you won't advertise the product. In a sum, you will see the advertise button only if the product is available.
 
 7. In the admin Dashboard, you will see All users, all sellers route. You can verify a seller by clicking "Verify" button. You are allowed to delete a seller and also a user account if you are an admin. 
-
+Live site link: https://wamp-62c65.web.app/
